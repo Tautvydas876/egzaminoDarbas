@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>User Page</title>
+</head>
+<body>
+
+<div class="row">
+
+    <div class="col-lg-3">
+        <form th:object="${istaiga}" th:href="@{/user-page/selectIstaiga}" >
+            <div class="form-group">
+                <label>Pasirinkite Istaiga: </label>
+                <select name="ist_name">
+                    <option th:each="ist : ${istaiga}" th:text="${ist.pavadinimas}" name="ist_name"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn_1 rounded">Pasirinkti</button>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="col-lg-3">
+        <form th:object="${valgiarastis}">
+            <div class="form-group">
+                <label>Pasirinkite Valgiarasti: </label>
+                <select name="val_name">
+                    <option th:each="val : ${valgiarastis}" th:text="${val.pavadinimas}" name="val_name"></option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn_1 rounded">Pasirinkti</button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

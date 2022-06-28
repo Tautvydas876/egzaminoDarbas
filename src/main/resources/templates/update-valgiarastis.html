@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Update</title>
+</head>
+<body>
+<div id="admin-page">
+    <h3>Category Editor</h3>
+    <div class="container margin_60_35" th:object="${valgiarastis}">
+        <div class="row">
+            <div class="col-lg-4">
+                <form th:action="@{/admin-page/updateValgiarastis}" method="post" class="form-group">
+                    <input type="hidden" th:value="${valgiarastis.id}" name="val_id" >
+                    <div class="form-group">
+                        <textarea name="name" rows="1" class="form-control" placeholder="Name"
+                                  th:text="${valgiarastis.pavadinimas}"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label> Pasirinkite Istaiga: </label>
+                        <select name="ist_name">
+                            <option th:each="ist : ${istaiga}" th:text="${ist.pavadinimas}" name="ist_name"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn_1 rounded add_bottom_30">Redaguoti</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

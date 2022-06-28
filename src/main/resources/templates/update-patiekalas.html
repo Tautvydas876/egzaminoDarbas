@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Istaigos Redagavimas</title>
+</head>
+<body>
+<div id="admin-page">
+    <h3>Istaigos Redegavimas</h3>
+    <div class="container margin_60_35" th:object="${patiekalas}">
+        <div class="row">
+            <div class="col-lg-4">
+                <form th:action="@{/admin-page/updatePatiekalas}" method="post" class="form-group">
+                    <input type="hidden" th:value="${patiekalas.id}" name="pat_id" >
+                    <div class="form-group">
+                        <textarea name="pat_name" rows="1" class="form-control" placeholder="Pavadinimas"
+                                  th:text="${patiekalas.pavadinimas}"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="summary" rows="3" class="form-control" placeholder="Kodas"
+                                  th:text="${patiekalas.aprasas}"></textarea>
+                    </div>
+                    <div class="form-group">
+                       <label> Pasirinkite Valgiarasti: </label>
+                        <select name="val_name">
+                            <option th:each="val : ${valgiarastis}" th:text="${val.pavadinimas}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn_1 rounded add_bottom_30">Redaguoti</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

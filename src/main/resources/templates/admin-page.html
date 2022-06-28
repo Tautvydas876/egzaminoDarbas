@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page</title>
+</head>
+<body>
+
+<div id="admin-page">
+
+    <div class="container margin_60_35" th:action="@{admin-page}">
+        <div class="row">
+            <div class="col-lg-4">
+                <h3>Prideti Istaiga</h3>
+                <form th:action="@{/admin-page/addIstaiga}" method="post">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-control" placeholder="Pavadinimas">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="code" class="form-control" placeholder="Kodas">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="address" class="form-control" placeholder="Adresas">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn_1 rounded add_bottom_30">Prideti</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-lg-3">
+                <h3>Prideti valgiarasti</h3>
+                <form th:action="@{/admin-page/addValgiarastis}" method="post">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Pavadinimas">
+                    </div>
+                    <div class="form-group">
+                        <label> Pasirinkite Istaiga: </label>
+                        <select name="ist_name">
+                            <option th:each="ist : ${istaiga}" th:text="${ist.pavadinimas}" name="ist_name"></option>
+                        </select>
+                    </div>
+
+                    <button class="ui-button rounded" type="submit">Prideti</button>
+                </form>
+            </div>
+
+            <div class="col-lg-3" th:object="${valgiarastis}">
+                <h3>Valgiarascio Sarasas</h3>
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">Pavadinimas</th>
+                        <th scope="col">Pasirinkimai</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="val : ${valgiarastis}">
+                        <th scope="row" th:text="${val.pavadinimas}"></th>
+                        <th scope="row">
+
+
+                            <form th:action="@{/admin-page/showValgiarastisForm}">
+
+                                <input type="hidden" th:value="${val.pavadinimas}" name="val_name">
+                                <button class="ui-button rounded"
+                                        style="background-color: orange" type="submit" name="update">
+                                    Redaguoti
+                                </button>
+                            </form>
+
+
+                            <form th:action="@{/admin-page/deleteValgiarastis}" method="post">
+
+                                <input type="hidden" th:value="${val.id}" name="valgiarastis_id">
+                                <button class="ui-button rounded"
+                                        style="background-color: red" type="submit" name="delete">
+                                    Pasalinti
+                                </button>
+                            </form>
+
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <h3>Istaigu Sarasas</h3>
+
+        <div class="col-lg-12">
+            <div th:object="${istaiga}">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Pavadinimas</th>
+                        <th scope="col">Kodas</th>
+                        <th scope="col">Adresas</th>
+                        <th scope="col">Pasirinkimai</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ist, istaiga_id : ${istaiga}">
+                        <th scope="row" th:text="${ist.id}"></th>
+                        <th scope="row" th:text="${ist.pavadinimas}"></th>
+                        <th scope="row" th:text="${ist.kodas}"></th>
+                        <th scope="row" th:text="${ist.adresas}"></th>
+                        <th scope="row">
+
+                            <form th:href="@{/update-istaiga}" th:action="@{/admin-page/showIstaigaForm}">
+                                <input type="hidden" th:value="${ist.id}" name="ist_id">
+                                <button class="ui-button rounded"
+                                        style="background-color: orange" type="submit" name="update">
+                                    Redaguoti
+                                </button>
+                            </form>
+                            <form th:action="@{/admin-page/delete}" method="post">
+                                <input type="hidden" th:value="${ist.id}" name="ist_id">
+                                <button class="ui-button rounded"
+                                        style="background-color: red" type="submit" name="delete">
+                                    Pasalinti
+                                </button>
+                            </form>
+
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3> Prideti Patiekala</h3>
+        <div class="col-lg-4">
+            <form th:action="@{/admin-page/addPatiekalas}" th:object="${valgiarastis}" method="post">
+                <div class="form-group">
+                    <label>Pasirinkite Valgiarasti: </label>
+                    <select name="val_name">
+                        <option th:each=" val : ${valgiarastis}" th:text="${val.pavadinimas}" name="val_name"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" name="pat_name" class="form-control" placeholder="Pavadinimas">
+                </div>
+                <div class="form-group">
+                    <textarea name="summary" class="form-control" rows="3" placeholder="Aprasymas"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn_1 rounded">Prideti</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Patiekalu Sarasas</h3>
+        <div class="col-lg-12">
+            <div th:object="${patiekalas}">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Pavadinimas</th>
+                        <th scope="col">Aprasymas</th>
+                        <th scope="col">Valgiarastis</th>
+                        <th scope="col">Pasirinkimai</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="pat, pat_id : ${patiekalas}">
+                        <th scope="row" th:text="${pat.id}"></th>
+                        <th scope="row" th:text="${pat.pavadinimas}"></th>
+                        <th scope="row" th:text="${pat.aprasas}"></th>
+                        <th scope="row" th:text="${pat.getValgiarastis().pavadinimas}"></th>
+                        <th scope="row">
+
+                            <form th:href="@{/update-patiekalas}" th:action="@{/admin-page/showPatiekalasForm}">
+                                <input type="hidden" th:value="${pat.id}" name="pat_id">
+                                <button class="ui-button rounded"
+                                        style="background-color: orange" type="submit" name="update">
+                                    Redaguoti
+                                </button>
+                            </form>
+                            <form th:action="@{/admin-page/deletePatiekalas}" method="post">
+                                <input type="hidden" th:value="${pat.id}" name="pat_id">
+                                <button class="ui-button rounded"
+                                        style="background-color: red" type="submit" name="delete">
+                                    Pasalinti
+                                </button>
+                            </form>
+
+                        </th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+
+</body>
+</html>
